@@ -9,7 +9,7 @@ services:
             - INTERVAL_IN_MIN=5
             - API_KEY=xyz
         image: sonyarouje/b2c-pinger:1.0
-        command: '--gitRepo https://github.com/sonyarouje/ad-b2c-pinger'
+        command: '--gitRepo github.com/sonyarouje/ad-b2c-pinger'
         expose:
             - '6420'
         ports:
