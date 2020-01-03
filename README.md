@@ -1,6 +1,6 @@
 # ad-b2c-pinger
 
-A node js based application to ping Azure functions in a scheduled interval to keep the function warm and avoid any cold starts.
+A node js based application to ping Azure functions authenticated using Azure AD B2C in a scheduled interval to keep the function warm and avoid any cold starts.
 
 ## Description
 
@@ -24,7 +24,7 @@ Lets see some of the environment variables used by this application
 -   INTERVAL_IN_MIN=1 `At what interval the scheduler should ping the urls.`
 -   API_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUz `This is an optional variable. If this variable is set then any http request to this pinger should have a header named api_key with the configured value. This is just to secure the end points with some basic security.`
 
-## How to configure the pinger
+## How to configure the pinger?
 
 Clone the repo and run `npm start`
 
