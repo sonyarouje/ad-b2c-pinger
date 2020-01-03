@@ -28,7 +28,7 @@ Lets see some of the environment variables used by this program
 
 Clone the repo and run `npm start`
 
-Open your favourite http client and fire a request to http://localhost:6420/test. The response will indicate the required configs and how to update the configs.
+Open your favourite http client and fire a request to http://localhost:6420/test. The response will indicate the status of required configs and how to update the configs.
 
 ```javascript
 {
@@ -96,3 +96,7 @@ and
 ### tokens
 
 Once all the configuration in place call http://localhost:6420/test api again. This time the test call will invoke the first url from the url list with a bearer token received from Azure AD B2C. If all go fine `test_url_invocation` will show the status as success.
+
+## How pinger works?
+
+Pinger use the refresh_token updated via `/save/login/tokens` and send a [request to Azure AD b2c](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-access-tokens) (using the configs configured via post request to `/save/b2cconfig`). The response from the AD b2c contains the access_token and expiration time etc. Once the pinger received a valid access_token it just saved to a file and will reuse it for the consecutive calls.
