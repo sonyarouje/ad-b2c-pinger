@@ -6,7 +6,7 @@ A node js based application to ping Azure functions in a scheduled interval to k
 
 Azure function hosted in Consumption plan will take some time to startup, if its not used for some time. This phenomenon is called [cold start](https://azure.microsoft.com/en-in/blog/understanding-serverless-cold-start/).
 
-One way of keeping the function warm is by pinging http triggered end point in a periodic interval or can use other hosting plan like Premium, etc.
+One way of keeping the function warm is by pinging the http triggered end point in a periodic interval or can use other hosting plan like Premium, etc.
 
 We can use Azure logic apps to ping an end point in periodic interval but one short coming I could see with Logic app, is to call an [Azure AD B2C](https://azure.microsoft.com/en-in/services/active-directory-b2c/) authenticated end point.
 
@@ -18,15 +18,11 @@ This pinger will rely several configurations, will come to that later.
 
 Lets see some of the environment variables used by this program
 
-NODE*ENV=DEV or PROD `If NODE*ENV is DEV then scheduled job to ping the urls will be disabled.`
-
-PORT=6420 `Port in which the application listen`
-
-SCHEDULED\*HRS=7-22 `Hours the scheduled job run, for e.g. above configuration set scheduler to run from 7am to 10pm`
-
-INTERVAL\*IN_MIN=1 `At what interval the scheduler should ping the urls.`
-
-API_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUz `This is an optional variable. If this variable is set then any http request to this pinger should have a header named api_key with the configured value. This is just to secure the end points with some basic security.`
+-   NODE_ENV=DEV or PROD `If NODE*ENV is DEV then scheduled job to ping the urls will be disabled.`
+-   PORT=6420 `Port in which the application listen`
+-   SCHEDULED_HRS=7-22 `Hours the scheduled job run, for e.g. above configuration set scheduler to run from 7am to 10pm`
+-   INTERVAL_IN_MIN=1 `At what interval the scheduler should ping the urls.`
+-   API_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUz `This is an optional variable. If this variable is set then any http request to this pinger should have a header named api_key with the configured value. This is just to secure the end points with some basic security.`
 
 ## How to configure the pinger
 
@@ -82,3 +78,21 @@ Open your favourite http client and fire a request to http://localhost:6420/test
     }
 }
 ```
+
+Lets analyze the response
+
+### urls
+
+`exist:true` means already the urls to ping is configured.
+
+To update the urls we can send a POST request to `http://localhost:6420/save/urls` with an array of urls as body.
+
+Like urls we need to configure
+
+### b2c_config
+
+and
+
+### tokens
+
+Once all the configuration in place call http://localhost:6420/test api again. This time the test call will invoke the first url from the url list with a bearer token received from Azure AD B2C. If all go fine `test_url_invocation` will show the status as success.
