@@ -4,9 +4,12 @@ const fetch = require('node-fetch');
 const log = require('./log');
 const fileManager = require('./fileManager');
 
-const b2cconfig = fileManager.getB2CConfigs();
+let b2cconfig = fileManager.getB2CConfigs();
 
 exports.assuretoken = () => {
+	if (!b2cconfig.token_uri) {
+		b2cconfig = fileManager.getB2CConfigs();
+	}
 	const credentials = fileManager.getCredentials();
 	const currentUTCTime = Math.floor(new Date().getTime() / 1000);
 	if (!b2cconfig.token_uri) {

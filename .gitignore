@@ -6,4 +6,5 @@ npm-debug.*
 logs/*
 config/*
 docker/files/*
+credentials/*
 
