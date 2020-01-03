@@ -1,0 +1,14 @@
+{
+	"DEV": {
+		"urls_config_file": "./config/urls.json",
+		"b2c_config_file": "./config/b2cconfig.json",
+		"credentials_path": "./credentials",
+		"log_file_path": "./logs"
+	},
+	"PROD": {
+		"urls_config_file": "/home/dev/src/files/urls.json",
+		"b2c_config_file": "/home/dev/src/files/b2cconfig.json",
+		"credentials_path": "/home/dev/src/files/credentials",
+		"log_file_path": "/home/dev/src/files/logs"
+	}
+}
