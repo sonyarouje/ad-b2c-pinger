@@ -99,4 +99,13 @@ Once all the configuration in place call http://localhost:6420/test api again. T
 
 ## How pinger works?
 
-Pinger use the refresh_token updated via `/save/login/tokens` and send a [request to Azure AD b2c](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-access-tokens) (using the configs configured via post request to `/save/b2cconfig`). The response from the AD b2c contains the access_token and expiration time etc. Once the pinger received a valid access_token it just saved to a file and will reuse it for the consecutive calls.
+Pinger use the refresh_token updated via `/save/login/tokens` and send a [request to Azure AD b2c](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-access-tokens) (using the configs configured via post request to `/save/b2cconfig`). The response from the AD b2c contains the access_token and expiration time etc. Once the pinger received a valid access_token it just saved to a file and will reuse it for the calls to the configured urls.
+
+## Dockerizing pinger
+
+1. Clone the repo
+2. Goto docker directory
+3. Run `docker-compose up`
+4. Test the pinger by sending http request to http://localhost:6420/test
+
+Note: The source code will get downloaded every time we run `docker-compose up` but the configs and logs are persisted using a volume mount.
