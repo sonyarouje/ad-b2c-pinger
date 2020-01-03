@@ -14,11 +14,11 @@ We can use Azure logic apps to ping an end point in periodic interval but one sh
 
 This pinger will ping configured list of urls in configured intervals with ad b2c provided bearer token. Any Azure functions protected with Azure AD Authentication cant be called without a valid token issued by Azure AD B2C.
 
-This pinger will rely several configurations, will come to that later.
+This pinger will rely several configuration files, will come to that later.
 
-Lets see some of the environment variables used by this program
+Lets see some of the environment variables used by this application
 
--   NODE_ENV=DEV or PROD `If NODE*ENV is DEV then scheduled job to ping the urls will be disabled.`
+-   NODE_ENV=DEV or PROD `If NODE_ENV is DEV then scheduled job to ping the urls will be disabled.`
 -   PORT=6420 `Port in which the application listen`
 -   SCHEDULED_HRS=7-22 `Hours the scheduled job run, for e.g. above configuration set scheduler to run from 7am to 10pm`
 -   INTERVAL_IN_MIN=1 `At what interval the scheduler should ping the urls.`
