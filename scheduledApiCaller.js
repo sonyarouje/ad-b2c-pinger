@@ -11,19 +11,20 @@ const urls = fileManager.getUrls();
 exports.start = () => {
 	const hours = process.env.SCHEDULED_HRS || '*';
 	const interval = process.env.INTERVAL_IN_MIN || '5';
+	const callUrls = process.env.CALL_SCHEDULED_URLS || true;
 
 	var job = schedule.scheduleJob(`*/${interval} ${hours} * * *`, () => {
 		log.log('running scheduler', 'scheduledApiCaller.js');
-		if (process.env.CALL_SCHEDULED_URLS) {
+		if (callUrls) {
 			apiCaller.multiApiCaller(urls, (err, data) => {
 				if (err) {
-					log.err('scheduled api caller error', 'scheduledApiCaller.js', err);
+					log.err('scheduled urls caller error', 'scheduledApiCaller.js', err);
 				} else {
-					log.log('scheduled api called', 'scheduledApiCaller.js', data);
+					log.log('scheduled ursl called', 'scheduledApiCaller.js', data);
 				}
 			});
 		} else {
-			log.log('disabled calling urls in scheduler, will not call scheduled apis', 'scheduledApiCaller.js');
+			log.log('disabled calling urls in scheduler, will not call scheduled urls', 'scheduledApiCaller.js');
 		}
 	});
 	return job;
