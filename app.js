@@ -88,12 +88,12 @@ app.post('/save/urls', function(req, res) {
 		"client_id": "<client id provided by azure ad b2c>",
 		"client_secret": "",
 		"user_flow_policy": "B2C_1_signupsignin",
-		"token_uri": "https://sarouje.b2clogin.com/sarouje.onmicrosoft.com/oauth2/v2.0/token",
-		"authority_host": "https://sarouje.b2clogin.com/sarouje.onmicrosoft.com/oauth2/v2.0/authorize",
-		"redirect_uri": "https://functionapp1201901.azurewebsites.net/.auth/login/aad/callback_tmp",
-		"resources": ["https://sarouje.b2clogin.com"],
+		"token_uri": "https://contoso.b2clogin.com/contoso.onmicrosoft.com/oauth2/v2.0/token",
+		"authority_host": "https://contoso.b2clogin.com/contoso.onmicrosoft.com/oauth2/v2.0/authorize",
+		"redirect_uri": "https://functionapp1201901567.azurewebsites.net/.auth/login/aad/callback",
+		"resources": ["https://contoso.b2clogin.com"],
 		"prompt": "login",
-		"scope": ["https://sarouje.onmicrosoft.com/api/offline_access", "offline_access"]
+		"scope": ["https://contoso.onmicrosoft.com/api/offline_access", "offline_access"]
 	}
  
  */
