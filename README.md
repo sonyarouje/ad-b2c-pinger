@@ -18,11 +18,12 @@ This pinger will rely several configuration files, will come to that later.
 
 Lets see some of the environment variables used by this application
 
--   NODE_ENV=DEV or PROD `If NODE_ENV is DEV then scheduled job to ping the urls will be disabled.`
+-   NODE_ENV=DEV or PROD `Can configure different directories to save tokens and config files based on this environment variable`
 -   PORT=6420 `Port in which the application listen`
 -   SCHEDULED_HRS=7-22 `Hours the scheduled job run, for e.g. above configuration set scheduler to run from 7am to 10pm`
 -   INTERVAL_IN_MIN=1 `At what interval the scheduler should ping the urls.`
--   API_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUz `This is an optional variable. If this variable is set then any http request to this pinger should have a header named api_key with the configured value. This is just to secure the end points with some basic security.`
+-   CALL_SCHEDULED_URLS `Value can be true or false. If false then configured urls will not called by the scheduler.`
+-   API_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUz `This is an optional variable. If this variable is set then any http request to this pinger should have a header named api_key with the configured value. This is to secure the end points with some basic security.`
 
 ## How to configure the pinger?
 
@@ -108,4 +109,4 @@ Pinger use the refresh_token updated via `/save/login/tokens` and send a [reques
 3. Run `docker-compose up`
 4. Test the pinger by sending http request to http://localhost:6420/test
 
-Note: The source code will get downloaded every time we run `docker-compose up` but the configs and logs are persisted using a volume mount.
+Note: The source code will get cloned every time we run `docker-compose up` but the configs and logs are persisted using a volume mount.

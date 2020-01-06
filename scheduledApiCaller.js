@@ -14,7 +14,7 @@ exports.start = () => {
 
 	var job = schedule.scheduleJob(`*/${interval} ${hours} * * *`, () => {
 		log.log('running scheduler', 'scheduledApiCaller.js');
-		if (process.env.NODE_ENV !== 'DEV') {
+		if (process.env.CALL_SCHEDULED_URLS) {
 			apiCaller.multiApiCaller(urls, (err, data) => {
 				if (err) {
 					log.err('scheduled api caller error', 'scheduledApiCaller.js', err);
@@ -23,7 +23,7 @@ exports.start = () => {
 				}
 			});
 		} else {
-			log.log('running in dev mode, will not call api in scheduler', 'scheduledApiCaller.js');
+			log.log('disabled calling urls in scheduler, will not call scheduled apis', 'scheduledApiCaller.js');
 		}
 	});
 	return job;

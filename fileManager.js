@@ -11,7 +11,7 @@ exports.saveLoginCredentials = (credentials, callback) => {
 		const month = ('0' + (date.getMonth() + 1)).slice(-2);
 		const year = date.getFullYear();
 
-		const newFileName = `${global.gConfig.credentials_path}/current__${dt}-${month}-${year}.json`;
+		const newFileName = `${global.gConfig.credentials_path}/current_${dt}-${month}-${year}.json`;
 		fs.renameSync(`${global.gConfig.credentials_path}/current.json`, newFileName);
 		log.log(`renamed existing file to ${newFileName}`, 'fileManager.js');
 	}

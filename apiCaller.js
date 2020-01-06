@@ -52,11 +52,14 @@ exports.singleApiCaller = (url, callback) => {
 };
 
 exports.multiApiCaller = (urls, callback) => {
-	const promises = urls.map(url => {
-		return serviceCaller(url);
-	});
-
-	Promise.all(promises)
+	if (!urls) {
+		callback('invalid param. urls should be a valid array');
+	}
+	const promises = urls.map(url => () => serviceCaller(url));
+	promiseSerial(promises)
 		.then(response => callback(undefined, response))
 		.catch(reason => callback(reason));
 };
+
+const promiseSerial = promises =>
+	promises.reduce((promise, func) => promise.then(result => func().then(Array.prototype.concat.bind(result))), Promise.resolve([]));
