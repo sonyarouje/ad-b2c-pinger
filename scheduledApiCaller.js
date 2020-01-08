@@ -20,7 +20,7 @@ exports.start = () => {
 				if (err) {
 					log.err('scheduled urls caller error', 'scheduledApiCaller.js', err);
 				} else {
-					log.log('scheduled ursl called', 'scheduledApiCaller.js', data);
+					log.log('scheduled urls called', 'scheduledApiCaller.js', data);
 				}
 			});
 		} else {

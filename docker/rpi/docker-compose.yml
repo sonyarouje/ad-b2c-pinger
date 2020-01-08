@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+    b2c-pinger:
+        environment:
+            - PORT=6420
+            - NODE_ENV=PROD
+            - SCHEDULED_HRS=7-22
+            - INTERVAL_IN_MIN=5
+            - API_KEY=xyz
+            - CALL_SCHEDULED_URLS=true
+        image: sonyarouje/b2c-pinger:arm32v7
+        command: '--gitRepo github.com/sonyarouje/ad-b2c-pinger'
+        expose:
+            - '6420'
+        ports:
+            - '6420:6420'
+        volumes:
+            - ./files:/home/dev/src/files

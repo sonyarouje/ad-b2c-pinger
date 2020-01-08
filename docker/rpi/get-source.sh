@@ -4,8 +4,10 @@ set -e
 gitRepo=$1
 srcDir=/home/dev/src
 gitDir=${gitRepo##*/}
+
 #gitDir=$gitRepo | rev | cut -d / -f1 | rev
 cd $srcDir
+
 
 if [ "$gitRepo" != "NOTSET" ]
 then
