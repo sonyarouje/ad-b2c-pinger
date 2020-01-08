@@ -9,6 +9,7 @@ services:
             - INTERVAL_IN_MIN=5
             - API_KEY=xyz
             - CALL_SCHEDULED_URLS=true
+            - SHOW_CONSOLE_LOG=true
         image: sonyarouje/b2c-pinger:arm32v7
         command: '--gitRepo github.com/sonyarouje/ad-b2c-pinger'
         expose:

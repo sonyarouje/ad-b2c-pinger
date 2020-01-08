@@ -25,21 +25,14 @@ const logger = winston.createLogger({
 // If we're not in production then log to the `console` with the format:
 // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
 //
-// if (process.env.NODE_ENV === 'DEV') {
-// 	logger.add(
-// 		new winston.transports.Console({
-// 			format: winston.format.combine(winston.format.colorize(), logFormat),
-// 			timestamp: true,
-// 		})
-// 	);
-// }
-
-logger.add(
-	new winston.transports.Console({
-		format: winston.format.combine(winston.format.colorize(), logFormat),
-		timestamp: true,
-	})
-);
+if (process.env.SHOW_CONSOLE_LOG === 'true') {
+	logger.add(
+		new winston.transports.Console({
+			format: winston.format.combine(winston.format.colorize(), logFormat),
+			timestamp: true,
+		})
+	);
+}
 
 exports.debug = (msg, label, meta) => {
 	logger.debug({ message: msg, label: label, meta: meta });
