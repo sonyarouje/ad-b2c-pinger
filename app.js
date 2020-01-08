@@ -9,7 +9,7 @@ const checkConfig = require('./testEnvironment');
 
 var app = express();
 app.use(express.json());
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8082;
 
 const checkHeaderAndInvoke = (req, res, callback) => {
 	if (process.env.API_KEY && process.env.API_KEY !== req.get('api_key')) {
@@ -26,9 +26,16 @@ const checkHeaderAndInvoke = (req, res, callback) => {
  */
 app.get('/test', function(req, res) {
 	checkHeaderAndInvoke(req, res, () => {
-		checkConfig.checkConfigs(response => {
-			res.send(response);
-		});
+		const url = req.query.url;
+		if (!url) {
+			checkConfig.checkConfigs(response => {
+				res.send(response);
+			});
+		} else {
+			checkConfig.singleApiTest(url, response => {
+				res.send(response);
+			});
+		}
 	});
 });
 
@@ -118,7 +125,7 @@ log.log(`Listening on port ${port}...`, 'app.js');
 
 const exitHandler = () => {
 	job.cancel();
-	log.log('exitting pinger');
+	log.log('exitting pinger', 'app.js');
 	process.exit();
 };
 

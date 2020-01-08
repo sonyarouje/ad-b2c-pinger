@@ -72,3 +72,24 @@ exports.checkConfigs = callback => {
 		callback(response);
 	}
 };
+
+exports.singleApiTest = (url, callback) => {
+	apiCaller.singleApiCaller(url, (err, data) => {
+		if (err) {
+			const response = {
+				url: url,
+				status: 'error',
+				error: err,
+			};
+			log.err('error in singleApiTest call', 'testEnvironment.js', err);
+			callback(response);
+		} else {
+			log.log('test api invocked successfully', 'testEnvironment.js', data);
+			const response = {
+				url: url,
+				status: 'success',
+			};
+			callback(response);
+		}
+	});
+};
