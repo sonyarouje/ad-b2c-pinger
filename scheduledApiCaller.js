@@ -11,10 +11,10 @@ const urls = fileManager.getUrls();
 exports.start = () => {
 	const hours = process.env.SCHEDULED_HRS || '*';
 	const interval = process.env.INTERVAL_IN_MIN || '5';
-	const callUrls = process.env.CALL_SCHEDULED_URLS || true;
+	const callUrls = process.env.CALL_SCHEDULED_URLS || 'true';
 	var job = schedule.scheduleJob(`*/${interval} ${hours} * * *`, () => {
 		log.log('running scheduler', 'scheduledApiCaller.js');
-		if (callUrls === true) {
+		if (callUrls === 'true') {
 			apiCaller.multiApiCaller(urls, (err, data) => {
 				if (err) {
 					log.err('scheduled urls caller error', 'scheduledApiCaller.js', err);
