@@ -18,7 +18,6 @@ exports.assuretoken = () => {
 	}
 
 	if (currentUTCTime < credentials.expires_on) {
-		log.log('returning existing bearer token', 'tokenRefresher.js');
 		return new Promise.resolve(credentials.access_token);
 	} else {
 		return refreshToken();
@@ -29,6 +28,8 @@ const refreshToken = () => {
 	return new Promise((resolve, reject) => {
 		const refreshToken = fileManager.getRefreshToken();
 		if (!refreshToken) reject('invalid refresh token');
+
+		log.log('getting new bearer token', 'tokenRefresher.js');
 
 		const config = {
 			refresh_token: refreshToken,
@@ -111,6 +112,5 @@ function _serialize(params) {
 	for (let prop in params) {
 		if (params[prop] !== null && params[prop] !== void 0 && prop !== 'grant_type') paramStr += `&${prop}=${encodeURIComponent(params[prop])}`;
 	}
-	log.log('serializes', 'tokenRefresher.js', paramStr);
 	return paramStr;
 }
