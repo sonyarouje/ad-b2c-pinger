@@ -36,7 +36,13 @@ const serviceCaller = url => {
 			.then(httpOptions => {
 				return fetch(url, httpOptions);
 			})
-			.then(response => resolve(response))
+			.then(response => {
+				const invocationStatus = {
+					url: url,
+					status: 'success',
+				};
+				resolve(invocationStatus);
+			})
 			.catch(reason => {
 				reject(reason);
 			});

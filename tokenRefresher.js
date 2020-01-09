@@ -18,7 +18,7 @@ exports.assuretoken = () => {
 	}
 
 	if (currentUTCTime < credentials.expires_on) {
-		log.log('returning existing token', 'tokenRefresher.js');
+		log.log('returning existing bearer token', 'tokenRefresher.js');
 		return new Promise.resolve(credentials.access_token);
 	} else {
 		return refreshToken();
@@ -28,7 +28,7 @@ exports.assuretoken = () => {
 const refreshToken = () => {
 	return new Promise((resolve, reject) => {
 		const refreshToken = fileManager.getRefreshToken();
-		if (!refreshToken) reject('Invalid refresh token');
+		if (!refreshToken) reject('invalid refresh token');
 
 		const config = {
 			refresh_token: refreshToken,
@@ -69,8 +69,8 @@ const grantAccessToken = (grantType, params, policy) => {
 			const body = `grant_type=${grantType}${_serialize(params)}`;
 
 			if (!b2cconfig.token_uri) reject('token_uri not set in config');
-			log.log(`ReactNativeAD.grantAccessToken: url ${b2cconfig.token_uri}`, 'tokenRefresher.js');
-			log.log('ReactNativeAD.grantAccessToken: body', 'tokenRefresher.js', body);
+			log.log(`grantAccessToken: url ${b2cconfig.token_uri}`, 'tokenRefresher.js');
+			log.log('grantAccessToken: body', 'tokenRefresher.js', body);
 
 			fetch(`${b2cconfig.token_uri}?p=${policy}`, {
 				method: 'POST',
