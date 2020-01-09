@@ -1,10 +1,10 @@
 # ad-b2c-pinger
 
-A node js based application to ping Azure functions authenticated using Azure AD B2C in a scheduled interval to keep the function warm and avoid any cold starts.
+A node js application to ping Azure functions authenticated with Azure AD B2C in a scheduled interval to keep the function warm and avoid cold starts.
 
 ## Description
 
-Azure function hosted in Consumption plan will take some time to startup, if its not used for some time. This phenomenon is called [cold start](https://azure.microsoft.com/en-in/blog/understanding-serverless-cold-start/).
+Azure function hosted in Consumption plan will take 8+ seconds to startup, if its not used for some time. This phenomenon is called [cold start](https://azure.microsoft.com/en-in/blog/understanding-serverless-cold-start/).
 
 One way of keeping the function warm is by pinging the http triggered end point in a periodic interval or can use other hosting plan like Premium, etc.
 
@@ -14,7 +14,7 @@ We can use Azure logic apps to ping an end point in periodic interval but one sh
 
 This pinger will ping configured list of urls in configured intervals with ad b2c provided bearer token. Any Azure functions protected with Azure AD Authentication cant be called without a valid token issued by Azure AD B2C.
 
-This pinger will rely several configuration files, will come to that later.
+This pinger will rely on several configuration files, will come to that later.
 
 Lets see some of the environment variables used by this application
 
@@ -24,6 +24,8 @@ Lets see some of the environment variables used by this application
 -   INTERVAL_IN_MIN=1 `At what interval the scheduler should ping the urls.`
 -   CALL_SCHEDULED_URLS `Value can be true or false. If false then configured urls will not called by the scheduler.`
 -   API_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUz `This is an optional variable. If this variable is set then any http request to this pinger should have a header named api_key with the configured value. This is to secure the end points with some basic security.`
+-   SHOW_CONSOLE_LOG `true or false decides whether to show the logs in console`
+-   CREATE_LOG_SYMLINK `true or false. Logging uses rotating log files, if the environment variable is true then create log.log symlink to the active log file`
 
 ## How to configure the pinger?
 
@@ -98,9 +100,18 @@ and
 
 Once all the configuration in place call http://localhost:6420/test api again. This time the test call will invoke the first url from the url list with a bearer token received from Azure AD B2C. If all go fine `test_url_invocation` will show the status as success.
 
+We can also test a single url by calling test end point with url as query param. e.g. http://localhost:6420/test?url=https://myfunction.azurewebsite.net/ping Response
+
+```
+{
+    "url": "https://myfunction.azurewebsite.net/ping",
+    "status": "success"
+}
+```
+
 ## How pinger works?
 
-Pinger use the refresh_token updated via `/save/login/tokens` and send a [request to Azure AD b2c](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-access-tokens) (using the configs configured via post request to `/save/b2cconfig`). The response from the AD b2c contains the access_token and expiration time etc. Once the pinger received a valid access_token it just saved to a file and will reuse it for the calls to the configured urls.
+Pinger use the refresh_token updated via `/save/login/tokens` and send a [request to Azure AD b2c](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-access-tokens) (using the configs configured via post request to `/save/b2cconfig`). The response from the AD b2c contains the access_token, refresh_token, expiration time etc. Once the pinger receives a valid access_token it saves the data to a file and will reuse it to invoke the configured urls. Once the access_token expires, pinger will refetch a valid access_token using the refresh_token. Ideally pinger needs to be configured with a valid refresh_token once.
 
 ## Dockerizing pinger
 

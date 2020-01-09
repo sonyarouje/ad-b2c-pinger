@@ -1,0 +1,18 @@
+# compose up when the linux machine starts
+# copy this file to /etc/systemd/system/
+# sudo systemctl enable adb2c-pinger
+
+[Unit]
+Description=Pinger Application Service
+Requires=docker.service
+After=docker.service
+[Service]
+WorkingDirectory=/home/pinger/b2c_pinger
+ExecStart=docker-compose up
+ExecStop=docker-compose down
+TimeoutStartSec=0
+Restart=on-failure
+StartLimitIntervalSec=60
+StartLimitBurst=3
+[Install]
+WantedBy=multi-user.target
