@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "app.js",
 	"scripts": {
-		"start": "cross-env NODE_ENV=DEV PORT=6420 SCHEDULED_HRS=7-22 INTERVAL_IN_MIN=1 CALL_SCHEDULED_URLS=true API_KEY=xyz SHOW_CONSOLE_LOG=true node app.js",
+		"start": "cross-env NODE_ENV=DEV PORT=6420 SCHEDULED_HRS=7-22 INTERVAL_IN_MIN=1 CALL_SCHEDULED_URLS=true API_KEY=xyz SHOW_CONSOLE_LOG=true CREATE_LOG_SYMLINK=false node app.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "Sony Arouje",
@@ -14,7 +14,8 @@
 		"node-fetch": "^2.6.0",
 		"node-schedule": "^1.3.2",
 		"promise": "^8.0.3",
-		"winston": "^3.2.1"
+		"winston": "^3.2.1",
+		"winston-daily-rotate-file": "^4.4.1"
 	},
 	"devDependencies": {
 		"cross-env": "^6.0.3"

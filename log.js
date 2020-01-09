@@ -1,8 +1,10 @@
 const winston = require('winston');
+require('winston-daily-rotate-file');
 
 const logFormat = winston.format.printf(
 	info => `${info.timestamp} ${info.level} [${info.label}]: ${info.message} ${info.meta ? 'meta' + JSON.stringify({ ...info.meta }) : ''}`
 );
+const tsFormat = () => new Date().toLocaleTimeString();
 
 const logger = winston.createLogger({
 	format: winston.format.combine(
@@ -16,8 +18,21 @@ const logger = winston.createLogger({
 		// - Write all logs with level `error` and below to `error.log`
 		// - Write all logs with level `info` and below to `combined.log`
 		//
-		new winston.transports.File({ filename: `${global.gConfig.log_file_path}/error.log`, level: 'error' }),
-		new winston.transports.File({ filename: `${global.gConfig.log_file_path}/log.log` }),
+		new winston.transports.DailyRotateFile({
+			filename: `${global.gConfig.log_file_path}/error.log`,
+			level: 'error',
+			maxSize: '10m',
+			maxFiles: '5d',
+			createSymlink: process.env.CREATE_LOG_SYMLINK === 'true',
+			symlinkName: 'error.log',
+		}),
+		new winston.transports.DailyRotateFile({
+			filename: `${global.gConfig.log_file_path}/log.log`,
+			maxSize: '10m',
+			maxFiles: '5d',
+			createSymlink: process.env.CREATE_LOG_SYMLINK === 'true',
+			symlinkName: 'log.log',
+		}),
 	],
 });
 

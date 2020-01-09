@@ -10,6 +10,7 @@ services:
             - API_KEY=xyz
             - CALL_SCHEDULED_URLS=true
             - SHOW_CONSOLE_LOG=true
+            - CREATE_LOG_SYMLINK=true
         image: sonyarouje/b2c-pinger:1.0
         command: '--gitRepo github.com/sonyarouje/ad-b2c-pinger'
         expose:
