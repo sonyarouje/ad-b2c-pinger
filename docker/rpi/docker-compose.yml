@@ -11,6 +11,7 @@ services:
             - CALL_SCHEDULED_URLS=true
             - SHOW_CONSOLE_LOG=true
             - CREATE_LOG_SYMLINK=true
+            - TZ=Asia/Calcutta
         image: sonyarouje/b2c-pinger:arm32v7
         command: '--gitRepo github.com/sonyarouje/ad-b2c-pinger'
         expose:

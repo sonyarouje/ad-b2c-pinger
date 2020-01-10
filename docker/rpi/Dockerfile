@@ -18,8 +18,11 @@ ENV CREATE_LOG_SYMLINK true
 #     git \
 #     bash
 
-RUN apk add \
-    git
+RUN apk add --no-cache \
+    git \
+    tzdata
+
+ENV TZ Asia/Calcutta
 
 COPY *.sh /
 RUN chmod +x /entrypoint.sh \

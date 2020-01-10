@@ -11,10 +11,14 @@ ENV INTERVAL_IN_MIN 5
 ENV CALL_SCHEDULED_URLS true
 ENV SHOW_CONSOLE_LOG true
 ENV CREATE_LOG_SYMLINK true
+
 #EXPOSE ${PORT}
 
-RUN apk add \
-    git
+RUN apk add --no-cache \
+    git \
+    tzdata
+
+ENV TZ Asia/Calcutta
 
 COPY *.sh /
 RUN chmod +x /entrypoint.sh \
@@ -29,6 +33,7 @@ RUN mkdir -p ~/src \
     && mkdir ~/.npm-global \
     && mkdir ~/src/files \
     && mkdir ~/src/files/logs 
+
 
 #append the .npm-global to path, other wise globally installed packages will not be available in bash
 ENV PATH="/home/$USERNAME/.npm-global:/home/$USERNAME/.npm-global/bin:${PATH}"
